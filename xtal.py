@@ -78,23 +78,16 @@ print('')
 for offset in (-100, -10, -1, 0, 0.65, 1, 10, 100):
     print(f'Xtal @ Fr + {offset} Hz: {Xtal(Fr + offset)} ohm' )
 
-
-
 def plot_it(f_start, f_end, f_step, func, capt=""):
-
     freq = np.arange(f_start, f_end, f_step)
-    print("freq:", freq)
-
     func_v = np.vectorize(func)
     y = func_v(freq)
-    print("y: ", y)
 
     fig, ax = plt.subplots()
     ax.plot(freq, y)
     ax.set_title(capt)
     ax.set_xlabel("Frequency")
     ax.grid(True)
-
 
 f_start = 12.9 * MHz
 f_end = 13.2 * MHz
