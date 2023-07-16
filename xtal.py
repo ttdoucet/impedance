@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.ticker
+from matplotlib.ticker import ScalarFormatter
 import math
 
 uH = 1e-6
@@ -93,7 +95,41 @@ f_start = 12.9 * MHz
 f_end = 13.2 * MHz
 f_step = 10 * Hz
 
-plot_it(f_start, f_end, f_step, Xtal_imag, "Reactance")
-plot_it(f_start, f_end, f_step, Xtal_real, "Resistance")
-plot_it(f_start, f_end, f_step, Xtal_C, "Series equiv. C")
+# plot_it(f_start, f_end, f_step, Xtal_imag, "Reactance")
+# plot_it(f_start, f_end, f_step, Xtal_real, "Resistance")
+# plot_it(f_start, f_end, f_step, Xtal_C, "Series equiv. C")
+#plt.show()
+
+
+def plot_X_and_R(f_start, f_end, f_step):
+
+    freq = np.arange(f_start, f_end, f_step)
+    func_imag = np.vectorize(Xtal_imag)
+    y_imag = func_imag(freq)
+
+    fig, ax = plt.subplots()
+    ax.plot(freq, y_imag)
+
+    func_real = np.vectorize(Xtal_real)
+    y_real = func_real(freq)
+
+    ax2 = ax.twinx()
+    ax2.plot(freq, y_real, 'r-')
+    ax2.tick_params('y', colors='r')
+    ax2.set_ylabel("Resistance", color='r')
+    ax2.ticklabel_format(axis='y', style='sci', scilimits=(6,6),  useOffset=False, useMathText=True)
+
+
+    ax.set_xlabel("Frequency")
+    ax.set_ylabel("Reactance")
+    ax.ticklabel_format(axis='x', style='sci', scilimits=(6,6),  useOffset=False, useMathText=True)
+    ax.ticklabel_format(axis='y', style='sci', scilimits=(3,3),  useOffset=False, useMathText=True)
+
+
+    ax.set_title("R and X vs frequency")
+
+    ax.grid(True)
+
+plot_X_and_R(f_start, f_end, f_step)
+
 plt.show()
