@@ -1,3 +1,5 @@
+import numpy as np
+import matplotlib.pyplot as plt
 import math
 
 uH = 1e-6
@@ -30,9 +32,20 @@ def Series(lhs, rhs):
 
 def Parallel(lhs, rhs):
     return (lhs * rhs) / (lhs + rhs)
+
 def Xtal(f):
     s = Rm + XL(f, Lm) + XC(f, Cm)
     return Parallel(s, XC(f, Cs) )
+
+def Xtal_imag(f):
+     return Xtal(f).imag
+
+def Xtal_real(f):
+     return Xtal(f).real
+
+def Xtal_C(f):
+     X = Xtal(f).imag
+     return 1 / (2 * math.pi * f * X)
 
 
 # Motional
@@ -65,3 +78,29 @@ print('')
 for offset in (-100, -10, -1, 0, 0.65, 1, 10, 100):
     print(f'Xtal @ Fr + {offset} Hz: {Xtal(Fr + offset)} ohm' )
 
+
+
+def plot_it(f_start, f_end, f_step, func, capt=""):
+
+    freq = np.arange(f_start, f_end, f_step)
+    print("freq:", freq)
+
+    func_v = np.vectorize(func)
+    y = func_v(freq)
+    print("y: ", y)
+
+    fig, ax = plt.subplots()
+    ax.plot(freq, y)
+    ax.set_title(capt)
+    ax.set_xlabel("Frequency")
+    ax.grid(True)
+
+
+f_start = 12.9 * MHz
+f_end = 13.2 * MHz
+f_step = 10 * Hz
+
+plot_it(f_start, f_end, f_step, Xtal_imag, "Reactance")
+plot_it(f_start, f_end, f_step, Xtal_real, "Resistance")
+plot_it(f_start, f_end, f_step, Xtal_C, "Series equiv. C")
+plt.show()
