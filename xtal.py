@@ -102,31 +102,28 @@ f_step = 10 * Hz
 
 
 def plot_X_and_R(f_start, f_end, f_step):
-
     freq = np.arange(f_start, f_end, f_step)
+
     func_imag = np.vectorize(Xtal_imag)
     y_imag = func_imag(freq)
+
+    func_real = np.vectorize(Xtal_real)
+    y_real = func_real(freq)
 
     fig, ax = plt.subplots()
     ax.plot(freq, y_imag)
 
-    func_real = np.vectorize(Xtal_real)
-    y_real = func_real(freq)
+    ax.set_xlabel("Frequency")
+    ax.set_ylabel("Reactance")
+    ax.ticklabel_format(axis='x', style='sci', scilimits=(6,6),  useOffset=False, useMathText=True)
+    ax.ticklabel_format(axis='y', style='sci', scilimits=(3,3),  useOffset=False, useMathText=True)
+    ax.set_title("R and X vs frequency")
 
     ax2 = ax.twinx()
     ax2.plot(freq, y_real, 'r-')
     ax2.tick_params('y', colors='r')
     ax2.set_ylabel("Resistance", color='r')
     ax2.ticklabel_format(axis='y', style='sci', scilimits=(6,6),  useOffset=False, useMathText=True)
-
-
-    ax.set_xlabel("Frequency")
-    ax.set_ylabel("Reactance")
-    ax.ticklabel_format(axis='x', style='sci', scilimits=(6,6),  useOffset=False, useMathText=True)
-    ax.ticklabel_format(axis='y', style='sci', scilimits=(3,3),  useOffset=False, useMathText=True)
-
-
-    ax.set_title("R and X vs frequency")
 
     ax.grid(True)
 
