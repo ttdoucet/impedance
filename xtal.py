@@ -80,6 +80,12 @@ print('')
 for offset in (-100, -10, -1, 0, 0.65, 1, 10, 100):
     print(f'Xtal @ Fr + {offset} Hz: {Xtal(Fr + offset)} ohm' )
 
+Cp = ((0.05 * 3) / (0.05 + 3)) * pF
+print('')
+print(f'Cp: {Cp / pF} pF')
+print(f'reson(Lm, Cp): {reson(Lm, Cp) / MHz} MHz')
+print('')
+
 def plot_it(f_start, f_end, f_step, func, capt=""):
     freq = np.arange(f_start, f_end, f_step)
     func_v = np.vectorize(func)
@@ -90,6 +96,7 @@ def plot_it(f_start, f_end, f_step, func, capt=""):
     ax.set_title(capt)
     ax.set_xlabel("Frequency")
     ax.grid(True)
+    ax.ticklabel_format(axis='x', style='sci', scilimits=(6,6),  useOffset=False, useMathText=True)
 
 
 def plot_X_and_C(f_start, f_end, f_step):
