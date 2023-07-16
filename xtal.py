@@ -91,23 +91,14 @@ def plot_it(f_start, f_end, f_step, func, capt=""):
     ax.set_xlabel("Frequency")
     ax.grid(True)
 
-f_start = 12.9 * MHz
-f_end = 13.2 * MHz
-f_step = 10 * Hz
 
-# plot_it(f_start, f_end, f_step, Xtal_imag, "Reactance")
-# plot_it(f_start, f_end, f_step, Xtal_real, "Resistance")
-# plot_it(f_start, f_end, f_step, Xtal_C, "Series equiv. C")
-#plt.show()
-
-
-def plot_X_and_R(f_start, f_end, f_step):
+def plot_X_and_C(f_start, f_end, f_step):
     freq = np.arange(f_start, f_end, f_step)
 
     func_imag = np.vectorize(Xtal_imag)
     y_imag = func_imag(freq)
 
-    func_real = np.vectorize(Xtal_real)
+    func_real = np.vectorize(Xtal_C)
     y_real = func_real(freq)
 
     fig, ax = plt.subplots()
@@ -117,16 +108,23 @@ def plot_X_and_R(f_start, f_end, f_step):
     ax.set_ylabel("Reactance")
     ax.ticklabel_format(axis='x', style='sci', scilimits=(6,6),  useOffset=False, useMathText=True)
     ax.ticklabel_format(axis='y', style='sci', scilimits=(3,3),  useOffset=False, useMathText=True)
-    ax.set_title("R and X vs frequency")
+    ax.set_title("R and C equivalent vs frequency")
 
     ax2 = ax.twinx()
     ax2.plot(freq, y_real, 'r-')
     ax2.tick_params('y', colors='r')
-    ax2.set_ylabel("Resistance", color='r')
-    ax2.ticklabel_format(axis='y', style='sci', scilimits=(6,6),  useOffset=False, useMathText=True)
+    ax2.set_ylabel("C equiv", color='r')
+    ax2.ticklabel_format(axis='y', style='sci', scilimits=(-9,-9),  useOffset=False, useMathText=True)
 
     ax.grid(True)
 
-plot_X_and_R(f_start, f_end, f_step)
+f_start = 12.9 * MHz
+f_end = 13.2 * MHz
+f_step = 10 * Hz
+
+plot_it(f_start, f_end, f_step, Xtal_imag, "Reactance")
+plot_it(f_start, f_end, f_step, Xtal_real, "Resistance")
+plot_it(f_start, f_end, f_step, Xtal_C, "Series equiv. C")
+plot_X_and_C(f_start, f_end, f_step)
 
 plt.show()
