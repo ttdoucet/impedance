@@ -83,8 +83,18 @@ for offset in (-100, -10, -1, 0, 0.65, 1, 10, 100):
 Cp = ((0.05 * 3) / (0.05 + 3)) * pF
 print('')
 print(f'Cp: {Cp / pF} pF')
-print(f'reson(Lm, Cp): {reson(Lm, Cp) / MHz} MHz')
+
+Fp = reson(Lm, Cp)
+print(f'Fp: {Fp / MHz} MHz')
+
+factor = (Fp / Fr)
+factor = factor * factor - 1;
+print(f'factor: {factor}')
+print(f'factor * Cs: {factor * Cs}')
+print(f'actual Cm: {Cm}')
 print('')
+
+
 
 def plot_it(f_start, f_end, f_step, func, capt=""):
     freq = np.arange(f_start, f_end, f_step)
