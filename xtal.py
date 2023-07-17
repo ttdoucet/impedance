@@ -87,6 +87,10 @@ print(f'Cp: {Cp / pF} pF')
 Fp = reson(Lm, Cp)
 print(f'Fp: {Fp / MHz} MHz')
 
+print('')
+print(f'Xtal @ 15 kHz: {Xtal_C(15 * kHz) / pF} pF')
+print('')
+
 factor = (Fp / Fr)
 factor = factor * factor - 1;
 print(f'factor: {factor}')
